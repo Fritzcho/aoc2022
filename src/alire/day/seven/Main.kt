@@ -2,10 +2,8 @@ package alire.day.seven
 
 import java.io.File
 
-
 fun main() {
     File("src/alire/day/seven/input.txt").forEachLine {
-        println(it)
         when {
             it.startsWith("$ cd") -> getDir(it)
             it.startsWith("dir") -> isDir(it)
@@ -13,13 +11,12 @@ fun main() {
         }
     }
 
-    //println(dirLst.filter { it.size <= 100000 }.sumOf { it.size })
-    var ans = 0
-    for (dir in dirLst) {
-        if (dir.size<= 100000)
-            ans += dir.size
-    }
-    println(ans)
+    val ans1 = dirLst.filter { it.size<=100000 }.sumOf { it.size }
+    val req = 30000000 - 70000000 + root.size
+    val ans2 = dirLst.filter { it.size>req }.minOfOrNull { it.size }?:0
+
+    println("Q1: $ans1")
+    println("Q2: $ans2")
 }
 
 var curDir = Directory("/", null)
@@ -37,9 +34,7 @@ fun getDir(s: String) {
 fun isDir(s:String) {
     val name = s.drop(4)
     val dir = Directory(name, curDir)
-    if (!dirLst.any {it.name == name}) {
-        dirLst.add(dir)
-    }
+    dirLst.add(dir)
     if (!curDir.children.containsKey(name)) curDir.children[name] = dir
 }
 
