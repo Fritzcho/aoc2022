@@ -24,7 +24,6 @@ fun main() {
             break;
         }
     }
-
     /*File("src/alire/day/six/demo.txt").forEachLine {
     }*/
 }
