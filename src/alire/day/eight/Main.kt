@@ -9,12 +9,12 @@ var width = 0
 fun main() {
     var lines = 0
     File("src/alire/day/eight/input.txt").forEachLine {line ->
-        var charLine = line.toCharArray()
+        val charLine = line.toCharArray()
         width = charLine.size
         for (i in charLine.indices) {
             val top = if(lines-1<-1) null else Crdint(lines-1,i)
             val bot = if(lines+1>100) null else Crdint(lines+1,i)
-            val lef = if (i-1<(-1)) null else Crdint(lines, i-1)
+            val lef = Crdint(lines, i-1)
             val rig = if (i+1>width) null else Crdint(lines, i+1)
             treeMap[Crdint(lines,i)] = Tree(cToInt(charLine[i]), mapOf("top" to top, "bot" to bot, "lef" to lef, "rig" to rig))
         }
@@ -26,7 +26,7 @@ fun main() {
 
 fun part1() {
     var visTrees = 0
-    treeMap.forEach { (k,v)->
+    treeMap.forEach { (_,v)->
         val smaller = mutableMapOf("top" to false,"bot" to false, "lef" to false, "rig" to false)
         for (i in v.surMap.keys) {
             var t = treeMap[v.surMap[i]]
@@ -39,17 +39,17 @@ fun part1() {
                 if (smaller[i] == false)
                     break
             }
-            if (smaller.any{(k,v)-> v})
+            if (smaller.any{(_,v)-> v})
                 break
         }
-        visTrees = if (smaller.any{(k,v)-> v}) visTrees+1 else visTrees
+        visTrees = if (smaller.any{(_,v)-> v}) visTrees+1 else visTrees
     }
     println(visTrees)
 }
 
 fun part2() {
     var toptier = 0
-    treeMap.forEach { (k,v)->
+    treeMap.forEach { (_,v)->
         val top:MutableMap<String, Int> = mutableMapOf("top" to 0,"bot" to 0, "lef" to 0, "rig" to 0)
         for (i in v.surMap.keys) {
             var t = treeMap[v.surMap[i]]
